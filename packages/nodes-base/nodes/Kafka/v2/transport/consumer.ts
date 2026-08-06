@@ -38,6 +38,12 @@ export interface KafkaConsumerOptions {
 	maxInFlightRequests?: number;
 	/** Start at the earliest offset. Per-consumer here, unlike kafkajs's per-subscribe. */
 	fromBeginning?: boolean;
+	/**
+	 * Let the broker create the topic when subscribing to one that does not exist
+	 * (`allow.auto.create.topics`; the broker's own `auto.create.topics.enable`
+	 * still has to allow it). v1 declares this option but never reads it.
+	 */
+	allowAutoTopicCreation?: boolean;
 }
 
 /** Wiring for the library's own log output, kept apart from its config keys. */

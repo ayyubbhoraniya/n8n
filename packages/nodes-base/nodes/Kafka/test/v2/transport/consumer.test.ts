@@ -77,6 +77,7 @@ describe('createKafkaConsumer', () => {
 			minBytes: 2,
 			maxInFlightRequests: 3,
 			fromBeginning: true,
+			allowAutoTopicCreation: true,
 		});
 
 		expect(getFakeConsumers().at(-1)?.config).toStrictEqual({
@@ -91,6 +92,9 @@ describe('createKafkaConsumer', () => {
 				minBytes: 2,
 				maxInFlightRequests: 3,
 				fromBeginning: true,
+				// The library maps this onto `allow.auto.create.topics`, so subscribing
+				// to a topic that does not exist yet creates it instead of erroring.
+				allowAutoTopicCreation: true,
 			},
 		});
 	});
