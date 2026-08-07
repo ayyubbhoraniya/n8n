@@ -133,11 +133,11 @@ describe('applyAgentThinking', () => {
 		},
 	);
 
-	it('enables medium reasoning effort for Together AI', () => {
+	it('enables high reasoning effort for Together AI', () => {
 		const agent = new Agent('test');
 		applyAgentThinking(agent, 'togetherai/riqwanthahamir-d900/deepseek-v4-flash');
 		expect(mockAgentInstances[0]?.thinking).toHaveBeenCalledWith('togetherai', {
-			reasoningEffort: 'medium',
+			reasoningEffort: 'high',
 		});
 	});
 
@@ -164,19 +164,19 @@ describe('applyAgentThinking', () => {
 		expect(mockAgentInstances[0]?.thinking).not.toHaveBeenCalled();
 	});
 
-	it('enables medium reasoning effort for Kimi K3 via OpenRouter', () => {
+	it('enables high reasoning effort for Kimi K3 via OpenRouter', () => {
 		const agent = new Agent('test');
 		applyAgentThinking(agent, 'openrouter/moonshotai/kimi-k3');
 		expect(mockAgentInstances[0]?.thinking).toHaveBeenCalledWith('openrouter', {
-			reasoningEffort: 'medium',
+			reasoningEffort: 'high',
 		});
 	});
 
-	it('enables medium reasoning effort for Grok 4.5 via OpenRouter', () => {
+	it('enables high reasoning effort for Grok 4.5 via OpenRouter', () => {
 		const agent = new Agent('test');
 		applyAgentThinking(agent, 'openrouter/x-ai/grok-4.5');
 		expect(mockAgentInstances[0]?.thinking).toHaveBeenCalledWith('openrouter', {
-			reasoningEffort: 'medium',
+			reasoningEffort: 'high',
 		});
 	});
 

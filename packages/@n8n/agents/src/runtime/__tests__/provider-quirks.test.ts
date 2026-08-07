@@ -63,7 +63,12 @@ describe('thinkingToProviderOptions', () => {
 	});
 
 	it('vertex: adaptive thinking maps to anthropic providerOptions namespace', () => {
-		expect(getProviderQuirks('vertex').thinkingToProviderOptions?.({ mode: 'adaptive' })).toEqual({
+		expect(
+			getProviderQuirks('vertex').thinkingToProviderOptions?.(
+				{ mode: 'adaptive' },
+				'vertex/claude-sonnet-5',
+			),
+		).toEqual({
 			anthropic: {
 				thinking: { type: 'adaptive', display: 'summarized' },
 				effort: 'medium',
@@ -120,16 +125,18 @@ describe('thinkingToProviderOptions', () => {
 
 	it('openai: forwards GPT-5.6 Sol compatible reasoningEffort values', () => {
 		expect(
-			getProviderQuirks('openai').thinkingToProviderOptions?.({
-				reasoningEffort: 'medium',
-			}),
+			getProviderQuirks('openai').thinkingToProviderOptions?.(
+				{ reasoningEffort: 'medium' },
+				'openai/gpt-5.6-sol',
+			),
 		).toEqual({
 			openai: { reasoningEffort: 'medium', reasoningSummary: null },
 		});
 		expect(
-			getProviderQuirks('openai').thinkingToProviderOptions?.({
-				reasoningEffort: 'xhigh',
-			}),
+			getProviderQuirks('openai').thinkingToProviderOptions?.(
+				{ reasoningEffort: 'xhigh' },
+				'openai/gpt-5.6-sol',
+			),
 		).toEqual({
 			openai: { reasoningEffort: 'xhigh', reasoningSummary: null },
 		});
@@ -154,34 +161,40 @@ describe('thinkingToProviderOptions', () => {
 
 	it('openrouter: maps reasoningEffort to reasoning.effort', () => {
 		expect(
-			getProviderQuirks('openrouter').thinkingToProviderOptions?.({
-				reasoningEffort: 'low',
-			}),
+			getProviderQuirks('openrouter').thinkingToProviderOptions?.(
+				{ reasoningEffort: 'low' },
+				'openrouter/kimi-k3',
+			),
 		).toEqual({
 			openrouter: { reasoning: { effort: 'low' } },
 		});
 	});
 
 	it('openrouter: defaults reasoning effort to medium', () => {
-		expect(getProviderQuirks('openrouter').thinkingToProviderOptions?.({})).toEqual({
+		expect(
+			getProviderQuirks('openrouter').thinkingToProviderOptions?.({}, 'openrouter/kimi-k3'),
+		).toEqual({
 			openrouter: { reasoning: { effort: 'medium' } },
 		});
 	});
 
 	it('baseten: maps reasoningEffort to providerOptions.baseten', () => {
 		expect(
-			getProviderQuirks('baseten').thinkingToProviderOptions?.({
-				reasoningEffort: 'high',
-			}),
+			getProviderQuirks('baseten').thinkingToProviderOptions?.(
+				{ reasoningEffort: 'high' },
+				'baseten/kimi-k3',
+			),
 		).toEqual({
 			baseten: { reasoningEffort: 'high' },
 		});
 	});
 
 	it('baseten: defaults reasoning effort to none', () => {
-		expect(getProviderQuirks('baseten').thinkingToProviderOptions?.({})).toEqual({
-			baseten: { reasoningEffort: 'none' },
-		});
+		expect(getProviderQuirks('baseten').thinkingToProviderOptions?.({}, 'baseten/kimi-k3')).toEqual(
+			{
+				baseten: { reasoningEffort: 'none' },
+			},
+		);
 	});
 
 	it('fireworks: defaults service_tier to priority', () => {
@@ -191,16 +204,19 @@ describe('thinkingToProviderOptions', () => {
 	});
 
 	it('fireworks: defaults reasoning effort to medium', () => {
-		expect(getProviderQuirks('fireworks').thinkingToProviderOptions?.({})).toEqual({
+		expect(
+			getProviderQuirks('fireworks').thinkingToProviderOptions?.({}, 'fireworks/kimi-k3'),
+		).toEqual({
 			fireworks: { reasoningEffort: 'medium' },
 		});
 	});
 
 	it('fireworks: maps reasoningEffort to providerOptions.fireworks', () => {
 		expect(
-			getProviderQuirks('fireworks').thinkingToProviderOptions?.({
-				reasoningEffort: 'high',
-			}),
+			getProviderQuirks('fireworks').thinkingToProviderOptions?.(
+				{ reasoningEffort: 'high' },
+				'fireworks/kimi-k3',
+			),
 		).toEqual({
 			fireworks: { reasoningEffort: 'high' },
 		});
@@ -208,64 +224,70 @@ describe('thinkingToProviderOptions', () => {
 
 	it('wafer: maps reasoningEffort to providerOptions.wafer', () => {
 		expect(
-			getProviderQuirks('wafer').thinkingToProviderOptions?.({
-				reasoningEffort: 'high',
-			}),
+			getProviderQuirks('wafer').thinkingToProviderOptions?.(
+				{ reasoningEffort: 'high' },
+				'wafer/kimi-k3',
+			),
 		).toEqual({
 			wafer: { reasoningEffort: 'high' },
 		});
 	});
 
 	it('wafer: defaults reasoning effort to medium', () => {
-		expect(getProviderQuirks('wafer').thinkingToProviderOptions?.({})).toEqual({
+		expect(getProviderQuirks('wafer').thinkingToProviderOptions?.({}, 'wafer/kimi-k3')).toEqual({
 			wafer: { reasoningEffort: 'medium' },
 		});
 	});
 
 	it('morph: maps reasoningEffort to reasoning.effort', () => {
 		expect(
-			getProviderQuirks('morph').thinkingToProviderOptions?.({
-				reasoningEffort: 'high',
-			}),
+			getProviderQuirks('morph').thinkingToProviderOptions?.(
+				{ reasoningEffort: 'high' },
+				'morph/glm-5.2',
+			),
 		).toEqual({
 			morph: { reasoning: { effort: 'high' } },
 		});
 	});
 
 	it('morph: defaults reasoning effort to medium', () => {
-		expect(getProviderQuirks('morph').thinkingToProviderOptions?.({})).toEqual({
+		expect(getProviderQuirks('morph').thinkingToProviderOptions?.({}, 'morph/glm-5.2')).toEqual({
 			morph: { reasoning: { effort: 'medium' } },
 		});
 	});
 
 	it('togetherai: maps reasoningEffort to providerOptions.togetherai', () => {
 		expect(
-			getProviderQuirks('togetherai').thinkingToProviderOptions?.({
-				reasoningEffort: 'high',
-			}),
+			getProviderQuirks('togetherai').thinkingToProviderOptions?.(
+				{ reasoningEffort: 'high' },
+				'togetherai/kimi-k3',
+			),
 		).toEqual({
 			togetherai: { reasoningEffort: 'high' },
 		});
 	});
 
 	it('togetherai: defaults reasoning effort to medium', () => {
-		expect(getProviderQuirks('togetherai').thinkingToProviderOptions?.({})).toEqual({
+		expect(
+			getProviderQuirks('togetherai').thinkingToProviderOptions?.({}, 'togetherai/kimi-k3'),
+		).toEqual({
 			togetherai: { reasoningEffort: 'medium' },
 		});
 	});
 
 	it('custom: maps reasoningEffort to providerOptions.custom', () => {
 		expect(
-			getProviderQuirks('custom').thinkingToProviderOptions?.({
-				reasoningEffort: 'high',
-			}),
+			getProviderQuirks('custom').thinkingToProviderOptions?.(
+				{ reasoningEffort: 'high' },
+				'custom/model',
+			),
 		).toEqual({
 			custom: { reasoningEffort: 'high' },
 		});
 	});
 
 	it('custom: defaults reasoning effort to medium', () => {
-		expect(getProviderQuirks('custom').thinkingToProviderOptions?.({})).toEqual({
+		expect(getProviderQuirks('custom').thinkingToProviderOptions?.({}, 'custom/model')).toEqual({
 			custom: { reasoningEffort: 'medium' },
 		});
 	});

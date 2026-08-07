@@ -168,7 +168,7 @@ export function applyAgentThinking(agent: Agent, modelId: ModelConfig): void {
 	}
 
 	if (provider === 'openrouter') {
-		// Pin medium effort for models that default to heavy/max thinking.
+		// Pin a fixed effort for models whose OpenRouter default is unpredictable.
 		if (isKimiK3Model(modelId) || isGrok45Model(modelId)) {
 			agent.thinking('openrouter', { reasoningEffort: 'high' });
 		}
